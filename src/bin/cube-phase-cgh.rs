@@ -1,5 +1,5 @@
 use holography::cgh::naive::CghProcessorNaive;
-use holography::cgh::{CghConfig, CghProcessor};
+use holography::cgh::{generate_cgh, CghConfig};
 use holography::lut::TriFuncNaive;
 use holography::object::Object3d;
 use holography::point::Point;
@@ -28,10 +28,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let tri_func = TriFuncNaive::default();
+    let processor = CghProcessorNaive;
 
-    CghProcessorNaive::new(&tri_func, &config)
-        .process(&object)
-        .save("out/cube-phase-cgh.bmp")?;
+    generate_cgh(&processor, &tri_func, &config, &object).save("out/cube-phase-cgh.bmp")?;
 
     Ok(())
 }
