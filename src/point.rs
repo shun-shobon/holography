@@ -12,6 +12,10 @@ impl Point {
         Self { x, y, z }
     }
 
+    pub const fn zero() -> Self {
+        Self::new(0.0, 0.0, 0.0)
+    }
+
     pub fn distance(&self, other: &Self) -> f64 {
         let x = self.x - other.x;
         let y = self.y - other.y;
