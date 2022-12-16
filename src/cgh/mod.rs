@@ -1,3 +1,5 @@
+pub mod naive;
+
 use crate::bmp::Image;
 use crate::object::Object3d;
 use crate::point::Point;
