@@ -5,21 +5,21 @@ pub trait TriFunc {
     fn cos(&self, rad: f64) -> f64;
 }
 
-pub struct TriFuncStd;
+pub struct TriFuncNaive;
 
-impl Default for TriFuncStd {
+impl Default for TriFuncNaive {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl TriFuncStd {
+impl TriFuncNaive {
     pub fn new() -> Self {
         Self
     }
 }
 
-impl TriFunc for TriFuncStd {
+impl TriFunc for TriFuncNaive {
     #[inline]
     fn sin(&self, rad: f64) -> f64 {
         (rad.fract() * 2.0 * PI).sin()
