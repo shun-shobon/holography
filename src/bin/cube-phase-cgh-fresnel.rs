@@ -1,4 +1,4 @@
-use holography::cgh::naive::CghProcessorNaive;
+use holography::cgh::fresnel::CghProcessorFresnel;
 use holography::cgh::{generate_cgh, CghConfig};
 use holography::lut::TriFuncNaive;
 use holography::object::Object3d;
@@ -28,7 +28,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let tri_func = TriFuncNaive::default();
-    let processor = CghProcessorNaive;
+    let processor = CghProcessorFresnel;
 
     generate_cgh(&processor, &tri_func, &config, &object).save("out/cube-phase-cgh-fresnel.bmp")?;
 
