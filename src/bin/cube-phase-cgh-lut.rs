@@ -20,7 +20,7 @@ const SCALAR: f64 = 40.0;
 fn main() -> io::Result<()> {
     let object = Object3d::open("data/cube284.3d")?;
 
-    let tri_func = TriFuncLut::<f64, 256>::default();
+    let tri_func = TriFuncLut::<256>::default();
 
     let mut array = Array2::<f64>::zeros((IMAGE_HEIGHT as usize, IMAGE_WIDTH as usize));
 

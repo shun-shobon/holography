@@ -1,38 +1,49 @@
-use num::traits::{Float, FloatConst};
+use std::f64::consts::PI;
 
-pub trait TriFunc<T: Float> {
-    fn sin(&self, rad: T) -> T;
-    fn cos(&self, rad: T) -> T;
+pub trait TriFunc {
+    fn sin(&self, rad: f64) -> f64;
+    fn cos(&self, rad: f64) -> f64;
 }
 
-pub struct TriFuncStd<T>(std::marker::PhantomData<T>);
+pub struct TriFuncStd;
 
-impl<T: Float> TriFunc<T> for TriFuncStd<T> {
+impl Default for TriFuncStd {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl TriFuncStd {
+    pub fn new() -> Self {
+        Self
+    }
+}
+
+impl TriFunc for TriFuncStd {
     #[inline]
-    fn sin(&self, rad: T) -> T {
-        rad.sin()
+    fn sin(&self, rad: f64) -> f64 {
+        (rad.fract() * 2.0 * PI).sin()
     }
 
     #[inline]
-    fn cos(&self, rad: T) -> T {
-        rad.cos()
+    fn cos(&self, rad: f64) -> f64 {
+        (rad.fract() * 2.0 * PI).cos()
     }
 }
 
 #[derive(Debug)]
-pub struct TriFuncLut<T, const SIZE: usize> {
-    sin: [T; SIZE],
-    cos: [T; SIZE],
+pub struct TriFuncLut<const SIZE: usize> {
+    sin: [f64; SIZE],
+    cos: [f64; SIZE],
 }
 
-impl<T: Float + FloatConst, const SIZE: usize> TriFuncLut<T, SIZE> {
+impl<const SIZE: usize> TriFuncLut<SIZE> {
     pub fn new() -> Self {
-        let mut sin = [T::zero(); SIZE];
-        let mut cos = [T::zero(); SIZE];
+        let mut sin = [0.0; SIZE];
+        let mut cos = [0.0; SIZE];
 
         for i in 0..SIZE {
-            let rad =
-                (T::from(2).unwrap() * T::PI() / T::from(SIZE).unwrap()) * T::from(i).unwrap();
+            let rad = (2.0 * PI / SIZE as f64) * i as f64;
             sin[i] = rad.sin();
             cos[i] = rad.cos();
         }
@@ -41,22 +52,22 @@ impl<T: Float + FloatConst, const SIZE: usize> TriFuncLut<T, SIZE> {
     }
 }
 
-impl<T: Float + FloatConst, const SIZE: usize> Default for TriFuncLut<T, SIZE> {
+impl<const SIZE: usize> Default for TriFuncLut<SIZE> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<T: Float + FloatConst, const SIZE: usize> TriFunc<T> for TriFuncLut<T, SIZE> {
+impl<const SIZE: usize> TriFunc for TriFuncLut<SIZE> {
     #[inline]
-    fn sin(&self, rad: T) -> T {
-        let k = (rad.fract() * T::from(SIZE).unwrap()).to_usize().unwrap();
+    fn sin(&self, rad: f64) -> f64 {
+        let k = (rad.fract() * SIZE as f64) as usize;
         self.sin[k]
     }
 
     #[inline]
-    fn cos(&self, rad: T) -> T {
-        let k = (rad.fract() * T::from(SIZE).unwrap()).to_usize().unwrap();
+    fn cos(&self, rad: f64) -> f64 {
+        let k = (rad.fract() * SIZE as f64) as usize;
         self.cos[k]
     }
 }
