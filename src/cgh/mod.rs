@@ -1,5 +1,6 @@
 pub mod fresnel;
 pub mod naive;
+pub mod recurrence;
 
 use ndarray::Array2;
 
