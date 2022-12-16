@@ -1,3 +1,4 @@
+pub mod fresnel;
 pub mod naive;
 
 use ndarray::Array2;
