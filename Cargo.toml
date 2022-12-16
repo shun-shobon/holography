@@ -14,5 +14,6 @@ lto = true
 opt-level = 3
 
 [dependencies]
-ndarray = "0.15.6"
+ndarray = { version = "0.15.6", features = ["rayon"] }
 num = "0.4.0"
+rayon = "1.6.1"

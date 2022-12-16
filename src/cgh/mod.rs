@@ -20,13 +20,17 @@ pub struct CghConfig {
 }
 
 pub trait CghProcessor {
-    fn process(&self, tri_func: &dyn TriFunc, config: &CghConfig, object: &Object3d)
-        -> Array2<f64>;
+    fn process(
+        &self,
+        tri_func: &(dyn TriFunc + Sync),
+        config: &CghConfig,
+        object: &Object3d,
+    ) -> Array2<f64>;
 }
 
 pub fn generate_cgh(
     processor: &dyn CghProcessor,
-    tri_func: &dyn TriFunc,
+    tri_func: &(dyn TriFunc + Sync),
     config: &CghConfig,
     object: &Object3d,
 ) -> Image {
